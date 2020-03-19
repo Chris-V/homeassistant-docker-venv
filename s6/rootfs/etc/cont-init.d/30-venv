@@ -1,0 +1,6 @@
+#!/usr/bin/with-contenv bashio
+
+VENV="${VENV:-/var/run/homeassistant-venv}"
+
+bashio::log.info "Initializing venv in $VENV"
+python3 -m venv --system-site-packages "$VENV"

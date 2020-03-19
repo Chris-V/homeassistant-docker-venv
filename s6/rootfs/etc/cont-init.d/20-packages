@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bashio
+
+if [ -n "${PACKAGES:-}" ]; then
+  bashio::log.info "Installing extra packages"
+  apk add --quiet --no-progress --no-cache $PACKAGES
+else
+  bashio::log.info "No extra packages to install"
+fi

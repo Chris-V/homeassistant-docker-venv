@@ -1,0 +1,19 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Start Home Assistant service
+# ==============================================================================
+cd /config || bashio::exit.nok "Can't find config folder!"
+
+VENV="${VENV:-/var/run/homeassistant-venv}"
+
+if [ -n "${UMASK:-}" ]; then
+  bashio::log.info "Setting umask: $UMASK"
+  umask "$UMASK"
+fi
+
+bashio::log.info "Activating venv: $VENV"
+. "$VENV/bin/activate"
+
+exec \
+  s6-setuidgid homeassistant \
+  python3 -m homeassistant --config /config
