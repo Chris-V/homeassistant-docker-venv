@@ -3,14 +3,19 @@ version: "3"
 services:
   home-assistant:
     container_name: home-assistant
-    image: homeassistant/home-assistant:0.107.0
+    image: homeassistant/home-assistant:0.107.5
     ports:
       - 8123:8123
     environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=027
+      - PACKAGES=iputils
       - S6_READ_ONLY_ROOT=1
     volumes:
       - ./config:/config
-      - ./rootfs/etc/cont-init.d/10-user:/etc/cont-init.d/10-user
-      - ./rootfs/etc/cont-init.d/20-packages:/etc/cont-init.d/20-packages
-      - ./rootfs/etc/cont-init.d/30-venv:/etc/cont-init.d/30-venv
-      - ./rootfs/etc/services.d/home-assistant/run:/etc/services.d/home-assistant/run
+      # - ./rootfs/etc/cont-init.d/10-user:/etc/cont-init.d/10-user
+      # - ./rootfs/etc/cont-init.d/20-packages:/etc/cont-init.d/20-packages
+      # - ./rootfs/etc/cont-init.d/30-venv:/etc/cont-init.d/30-venv
+      # - ./rootfs/etc/services.d/home-assistant/run:/etc/services.d/home-assistant/run
+      - ./rootfs/etc/services.d/home-assistant/setup-and-run:/etc/services.d/home-assistant/run:ro

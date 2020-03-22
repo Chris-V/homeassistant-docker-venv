@@ -1,6 +1,8 @@
 #!/usr/bin/with-contenv bashio
 
-VENV="${VENV:-/var/run/homeassistant-venv}"
+USER="homeassistant"
+VENV="${VENV:-/var/tmp/homeassistant-venv}"
 
 bashio::log.info "Initializing venv in $VENV"
-python3 -m venv --system-site-packages "$VENV"
+su "$USER" \
+  -c "python3 -m venv --system-site-packages '$VENV_PATH'"
